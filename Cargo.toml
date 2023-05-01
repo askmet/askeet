@@ -1,0 +1,15 @@
+[package]
+name = "askeet"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+base64 = "0.21.0"
+clap = { version = "4.2.5", features = ["derive"] }
+colored = "2.0.0"
+inquire = "0.6.1"
+openssl = "0.10.52"
+rand = "0.8.5"
+rsa = { version = "0.9.0", features = ["pem"] }
