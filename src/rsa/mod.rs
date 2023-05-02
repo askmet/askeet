@@ -88,6 +88,13 @@ struct SaveResult {
     path_private_file: PathBuf,
 }
 
+fn get_directory_for_save() -> PathBuf {
+    #[cfg(debug_assertions)]
+    return env::current_dir().unwrap().join("keys");
+
+    return env::current_dir().unwrap();
+}
+
 fn save_pair_to_file(
     pair_name: &String,
     public_key: &String,
@@ -96,21 +103,16 @@ fn save_pair_to_file(
     let public_key_file_name = format!("{}.public.pem", pair_name);
     let private_key_file_name = format!("{}.private.pem", pair_name);
 
-    let mut public_key_file = File::create(env::current_dir().unwrap().join(public_key_file_name))?;
+    let mut public_key_file = File::create(get_directory_for_save().join(public_key_file_name))?;
 
-    let mut private_key_file =
-        File::create(env::current_dir().unwrap().join(private_key_file_name))?;
+    let mut private_key_file = File::create(get_directory_for_save().join(private_key_file_name))?;
 
     public_key_file.write_all(public_key.as_bytes())?;
     private_key_file.write_all(private_key.as_bytes())?;
 
     Ok(SaveResult {
-        path_private_file: env::current_dir()
-            .unwrap()
-            .join(format!("{}.public.pem", pair_name)),
-        path_public_file: env::current_dir()
-            .unwrap()
-            .join(format!("{}.private.pem", pair_name)),
+        path_private_file: get_directory_for_save().join(format!("{}.public.pem", pair_name)),
+        path_public_file: get_directory_for_save().join(format!("{}.private.pem", pair_name)),
     })
 }
 
